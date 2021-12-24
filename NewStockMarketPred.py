@@ -7,10 +7,10 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 
-company = 'TSLA'
+company = 'MSFT'
 
 start = dt.datetime(2012, 1, 1)
-end = dt.datetime(2020, 1, 1)
+end = dt.datetime(2021, 12, 24)
 
 data = web.DataReader(company, 'yahoo', start, end)
 
@@ -73,6 +73,7 @@ x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 
 predicted_prices = model.predict(x_test)
 predicted_prices = scaler.inverse_transform(predicted_prices)
+print(f"Prediction1: {predicted_prices}")
 
 # Plot The Test Predictions
 plt.plot(actual_prices, color="black", label=f"Actual {company} Price")
@@ -84,10 +85,10 @@ plt.legend()
 plt.show()
 
 # Predict Next Day
-real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inputs+1), 0]]
+real_data = [model_inputs[len(model_inputs+1) - prediction_days:len(model_inputs+1), 0]]
 real_data = np.array(real_data)
 real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
 prediction = model.predict(real_data)
 prediction = scaler.inverse_transform(prediction)
-print(f"Prediction: {prediction}")
+print(f"Prediction2: {prediction}")
