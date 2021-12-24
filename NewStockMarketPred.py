@@ -7,10 +7,12 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 
-company = 'MSFT'
+company = input("Enter the Company Name: ").upper()
+# print(company)
 
-start = dt.datetime(2012, 1, 1)
-end = dt.datetime(2021, 12, 24)
+start = dt.datetime(2013, 1, 1)
+end = dt.date.today()
+# print(end)
 
 data = web.DataReader(company, 'yahoo', start, end)
 
@@ -47,8 +49,8 @@ model.fit(x_train, y_train, epochs=25, batch_size=32)
 ''' Test The Model Accuracy on Existing Data '''
 
 # Load Test Data
-test_start = dt.datetime(2020, 1, 1)
-test_end = dt.datetime.now()
+test_start = dt.datetime(2021, 1, 1)
+test_end = dt.date.today()
 
 test_data = web.DataReader(company, 'yahoo', test_start, test_end)
 actual_prices = test_data['Close'].values
@@ -73,7 +75,7 @@ x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 
 predicted_prices = model.predict(x_test)
 predicted_prices = scaler.inverse_transform(predicted_prices)
-print(f"Prediction1: {predicted_prices}")
+# print(f"Prediction1: {predicted_prices}")
 
 # Plot The Test Predictions
 plt.plot(actual_prices, color="black", label=f"Actual {company} Price")
@@ -91,4 +93,4 @@ real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
 prediction = model.predict(real_data)
 prediction = scaler.inverse_transform(prediction)
-print(f"Prediction2: {prediction}")
+print(f"Prediction: {prediction}")
