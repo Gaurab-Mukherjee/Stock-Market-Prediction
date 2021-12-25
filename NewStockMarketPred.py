@@ -19,6 +19,7 @@ data = web.DataReader(company, 'yahoo', start, end)
 # Prepare Data
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_data = scaler.fit_transform(data['Close'].values.reshape(-1, 1))
+# print(data['Close'])
 
 prediction_days = 60
 
