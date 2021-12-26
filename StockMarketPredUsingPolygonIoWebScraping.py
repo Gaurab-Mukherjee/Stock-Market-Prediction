@@ -15,9 +15,8 @@ end = dt.date.today()
 data = f'https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{start}/{end}?apiKey={api_key}'
 data = requests.get(data).json()
 Close = pd.DataFrame(data['results'])
-print(Close)
-print(Close['c'])
-
+# print(Close)
+# print(Close['c'])
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_data = scaler.fit_transform(Close['c'].values.reshape(-1, 1))
 
