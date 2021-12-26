@@ -13,14 +13,13 @@ ticker = input("Enter the Company Name: ").upper()
 start = dt.date(2012, 1, 1)
 end = dt.date.today()
 data = f'https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{start}/{end}?apiKey={api_key}'
-print(data)
 data = requests.get(data).json()
-df = pd.DataFrame(data['results'])
-print(df)
-print(df['c'])
+Close = pd.DataFrame(data['results'])
+print(Close)
+print(Close['c'])
 
 scaler = MinMaxScaler(feature_range=(0, 1))
-scaled_data = scaler.fit_transform(df['c'].values.reshape(-1, 1))
+scaled_data = scaler.fit_transform(Close['c'].values.reshape(-1, 1))
 
 prediction_days = 60
 
@@ -56,14 +55,13 @@ test_end = dt.date.today()
 
 test_data = f'https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{test_start}/{test_end}?apiKey={api_key}'
 test_data = requests.get(test_data).json()
-dg = pd.DataFrame(test_data['results'])
-actual_prices = dg['c'].values
+test_close = pd.DataFrame(test_data['results'])
+actual_prices = test_close['c'].values
 
-total_dataset = pd.concat((df['c'], dg['c']), axis=0)
+total_dataset = pd.concat((Close['c'], test_close['c']), axis=0)
 
 model_inputs = 1
-
-model_inputs = total_dataset[len(total_dataset) - len(dg) - prediction_days:].values
+model_inputs = total_dataset[len(total_dataset) - len(test_close) - prediction_days:].values
 model_inputs = model_inputs.reshape(-1, 1)
 
 model_inputs = scaler.transform(model_inputs)
