@@ -60,6 +60,7 @@ actual_prices = test_close['c'].values
 total_dataset = pd.concat((Close['c'], test_close['c']), axis=0)
 
 model_inputs = 1
+
 model_inputs = total_dataset[len(total_dataset) - len(test_close) - prediction_days:].values
 model_inputs = model_inputs.reshape(-1, 1)
 
