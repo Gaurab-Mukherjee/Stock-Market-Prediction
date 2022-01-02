@@ -44,9 +44,11 @@ model.add(LSTM(units=50))
 model.add(Dropout(0.2))
 model.add(Dense(units=1))  # Prediction of the next closing value
 
-model.compile(optimizer='adam', loss='mean_squared_error')
+model.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 model.fit(x_train, y_train, epochs=25, batch_size=32)
-
+loss, accuracy = model.evaluate(x_train, y_train)
+print(f'Accuracy: {accuracy*100:.2f}%')
+print(f'Loss: {loss*100:.2f}%')
 ''' Test The Model Accuracy on Existing Data '''
 
 # Load Test Data
